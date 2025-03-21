@@ -38,6 +38,21 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+
+  /* Extended colors from your previous tailwind.config.ts */
+  --primary-500: #877eff;
+  --primary-600: #5d5fef;
+  --secondary-500: #ffb620;
+  --off-white: #d0dfff;
+  --red: #ff5a5a;
+  --dark-1: #000000;
+  --dark-2: #09090a;
+  --dark-3: #101012;
+  --dark-4: #1f1f22;
+  --light-1: #ffffff;
+  --light-2: #efefef;
+  --light-3: #7878a3;
+  --light-4: #5c5c7b;
 }
 
 .dark {
@@ -117,6 +132,65 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+/* Container settings: center content with 2rem padding */
+@layer components {
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  @media (min-width: 1400px) {
+    .container {
+      max-width: 1400px;
+    }
+  }
+}
+
+/* Custom width utilities */
+@layer utilities {
+  .w-420 {
+    width: 420px;
+  }
+  .w-465 {
+    width: 465px;
+  }
+}
+
+/* Custom keyframes and accordion animations */
+@layer utilities {
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+  .animate-accordion-down {
+    animation: accordion-down 0.2s ease-out;
+  }
+  .animate-accordion-up {
+    animation: accordion-up 0.2s ease-out;
+  }
+}
+
+/* Optional custom responsive utility for xs breakpoint (480px) */
+@media (min-width: 480px) {
+  .text-xs-responsive {
+    font-size: 0.875rem;
   }
 }

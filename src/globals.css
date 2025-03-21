@@ -1,0 +1,101 @@
+/* globals.css */
+
+/* Import Tailwind’s base styles, components, and utilities */
+@import 'tailwindcss';
+
+/* Optionally, import the animate plugin styles if you’re not using a config file */
+@import 'tailwindcss/animate.css';
+
+/* Define custom CSS variables for your extended color palette */
+:root {
+  --color-primary-500: #877eff;
+  --color-primary-600: #5d5fef;
+  --color-secondary-500: #ffb620;
+  --color-off-white: #d0dfff;
+  --color-red: #ff5a5a;
+  --color-dark-1: #000000;
+  --color-dark-2: #09090a;
+  --color-dark-3: #101012;
+  --color-dark-4: #1f1f22;
+  --color-light-1: #ffffff;
+  --color-light-2: #efefef;
+  --color-light-3: #7878a3;
+  --color-light-4: #5c5c7b;
+}
+
+/* Custom container styles moved into the components layer */
+@layer components {
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  /* For your 2xl breakpoint (set to 1400px) */
+  @media (min-width: 1400px) {
+    .container {
+      max-width: 1400px;
+    }
+  }
+}
+
+/* Custom width utilities */
+@layer utilities {
+  .w-420 {
+    width: 420px;
+  }
+  .w-465 {
+    width: 465px;
+  }
+}
+
+/* Set your base font family (Inter) */
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+/* Custom keyframes and animations for accordion */
+@layer utilities {
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+  .animate-accordion-down {
+    animation: accordion-down 0.2s ease-out;
+  }
+  .animate-accordion-up {
+    animation: accordion-up 0.2s ease-out;
+  }
+}
+
+/* (Optional) If you need a custom xs breakpoint (480px) for additional responsive utilities,
+   you can add media query based utilities or rely on Tailwind’s arbitrary variants.
+   For example, you might create a utility class that only applies above 480px: */
+@media (min-width: 480px) {
+  /* Example: a responsive text size utility */
+  .text-xs-responsive {
+    font-size: 0.875rem;
+  }
+}
+
+/* 
+  Note:
+  - Dark mode is still handled by adding a “dark” class to an ancestor (like <html class="dark">). 
+    Tailwind will automatically add variants if you use the `dark:` prefix in your HTML.
+  - Many of the configuration options from your previous tailwind.config.ts file (like content paths) are now handled automatically by Tailwind’s new JIT engine.
+  - For any advanced theming (e.g. generating color utilities based on your custom palette), you may still need a configuration file. The above approach “hard-codes” the custom values into CSS.
+*/
