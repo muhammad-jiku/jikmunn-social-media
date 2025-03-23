@@ -11,6 +11,7 @@ import { account, appwriteConfig, avatars, databases, storage } from './config';
 // ============================== SIGN UP
 export async function createUserAccount(user: INewUser) {
   try {
+    console.log('first bug', user);
     const newAccount = await account.create(
       ID.unique(),
       user.email,
@@ -18,6 +19,7 @@ export async function createUserAccount(user: INewUser) {
       user.name
     );
 
+    console.log('first bug new account', newAccount);
     if (!newAccount) throw Error;
 
     // const avatarUrl = avatars.getInitials(user.name);
@@ -30,7 +32,7 @@ export async function createUserAccount(user: INewUser) {
       username: user.username,
       imageUrl: avatarUrl,
     });
-
+    console.log('first new user bug', newUser);
     return newUser;
   } catch (error) {
     console.log(error);
@@ -47,13 +49,14 @@ export async function saveUserToDB(user: {
   username?: string;
 }) {
   try {
+    console.log('first save user bug', user);
     const newUser = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.usersCollectionId,
       ID.unique(),
       user
     );
-
+    console.log('first saved user bug new', newUser);
     return newUser;
   } catch (error) {
     console.log(error);
@@ -63,9 +66,13 @@ export async function saveUserToDB(user: {
 // ============================== SIGN IN
 export async function signInAccount(user: { email: string; password: string }) {
   try {
-    // const session = await account.createEmailSession(user.email, user.password);
-    const session = await account.createSession(user.email, user.password);
+    console.log('sign in account bug first', user);
+    const session = await account.createEmailPasswordSession(
+      user.email,
+      user.password
+    );
 
+    console.log('first sign in account session', session);
     return session;
   } catch (error) {
     console.log(error);
@@ -76,7 +83,7 @@ export async function signInAccount(user: { email: string; password: string }) {
 export async function getAccount() {
   try {
     const currentAccount = await account.get();
-
+    console.log('get current account', currentAccount);
     return currentAccount;
   } catch (error) {
     console.log(error);
@@ -87,7 +94,7 @@ export async function getAccount() {
 export async function getCurrentUser() {
   try {
     const currentAccount = await getAccount();
-
+    console.log('first current account', currentAccount);
     if (!currentAccount) throw Error;
 
     const currentUser = await databases.listDocuments(
@@ -95,7 +102,7 @@ export async function getCurrentUser() {
       appwriteConfig.usersCollectionId,
       [Query.equal('accountId', currentAccount.$id)]
     );
-
+    console.log('first current user', currentUser);
     if (!currentUser) throw Error;
 
     return currentUser.documents[0];

@@ -65,7 +65,7 @@ const Signup = () => {
         // toast({ title: 'Something went wrong. Please login your new account' });
         toast('Something went wrong. Please login your new account.');
 
-        navigate('/sign-in');
+        // navigate('/sign-in');
 
         return;
       }
