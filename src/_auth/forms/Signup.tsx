@@ -89,7 +89,7 @@ const Signup = () => {
 
   return (
     <Form {...form}>
-      <div className='sm:w-420 flex-center flex-col'>
+      <div className='xs:w-420 md:w-full flex-center flex-col'>
         <img src='/assets/icons/logo.svg' alt='logo' />
 
         <h2 className='h3-bold md:h2-bold pt-5 sm:pt-12'>
@@ -101,7 +101,7 @@ const Signup = () => {
 
         <form
           onSubmit={form.handleSubmit(handleSignup)}
-          className='flex flex-col gap-5 w-full mt-4'
+          className='flex flex-col gap-5 w-full mt-4 p-4'
         >
           <FormField
             control={form.control}
@@ -177,7 +177,7 @@ const Signup = () => {
               to='/sign-in'
               className='text-primary-500 text-small-semibold ml-1'
             >
-              Log in
+              Sign in
             </Link>
           </p>
         </form>

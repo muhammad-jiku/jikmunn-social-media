@@ -18,7 +18,7 @@ import UpdateProfile from './_root/pages/UpdateProfile';
 
 function App() {
   return (
-    <main className='flex h-screen'>
+    <main className='flex min-h-screen'>
       <Routes>
         {/* public routes */}
         <Route element={<AuthLayout />}>

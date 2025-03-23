@@ -60,18 +60,18 @@ const Signin = () => {
 
   return (
     <Form {...form}>
-      <div className='sm:w-420 flex-center flex-col'>
+      <div className='xs:w-420 md:w-full flex-center flex-col'>
         <img src='/assets/icons/logo.svg' alt='logo' />
 
         <h2 className='h3-bold md:h2-bold pt-5 sm:pt-12'>
-          Log in to your account
+          Sign in to your account
         </h2>
         <p className='text-light-3 small-medium md:base-regular mt-2'>
           Welcome back! Please enter your details.
         </p>
         <form
           onSubmit={form.handleSubmit(handleSignin)}
-          className='flex flex-col gap-5 w-full mt-4'
+          className='flex flex-col gap-5 w-full mt-4 p-4'
         >
           <FormField
             control={form.control}
@@ -107,7 +107,7 @@ const Signin = () => {
                 <Loader /> Loading...
               </div>
             ) : (
-              'Log in'
+              'Sign in'
             )}
           </Button>
 

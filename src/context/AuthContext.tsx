@@ -1,8 +1,14 @@
 /* eslint-disable react-refresh/only-export-components */
 import { getCurrentUser } from '@/lib/appwrite/api';
 import { IUser } from '@/types';
-import { createContext, useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const INITIAL_USER = {
   id: '',
@@ -35,11 +41,14 @@ const AuthContext = createContext<IContextType>(INITIAL_STATE);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
+  const { pathname } = useLocation(); // Moved to the top level of the component
+
   const [user, setUser] = useState<IUser>(INITIAL_USER);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const checkAuthUser = async () => {
+  // Wrap checkAuthUser in useCallback to prevent re-creation on every render
+  const checkAuthUser = useCallback(async () => {
     setIsLoading(true);
     try {
       const currentAccount = await getCurrentUser();
@@ -53,10 +62,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           bio: currentAccount.bio,
         });
         setIsAuthenticated(true);
-
         return true;
       }
-
       return false;
     } catch (error) {
       console.error(error);
@@ -64,20 +71,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []); // Empty dependency array means it will only be created once
 
   useEffect(() => {
     const cookieFallback = localStorage.getItem('cookieFallback');
+
     if (
-      cookieFallback === '[]' ||
-      cookieFallback === null ||
-      cookieFallback === undefined
+      (cookieFallback === '[]' ||
+        cookieFallback === null ||
+        cookieFallback === undefined) &&
+      pathname !== '/sign-in' &&
+      pathname !== '/sign-up'
     ) {
       navigate('/sign-in');
     }
 
     checkAuthUser();
-  }, [navigate]);
+  }, [navigate, pathname, checkAuthUser]); // Include pathname and checkAuthUser as dependencies
 
   const value = {
     user,
