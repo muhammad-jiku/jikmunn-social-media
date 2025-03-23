@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useUserContext } from '@/context/AuthContext';
+import { useSignInAccount } from '@/lib/react-query/queries';
 import { SigninValidation } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -22,7 +23,8 @@ const Signin = () => {
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
   // Query
-  const { mutateAsync: signInAccount, isLoading } = useSignInAccount();
+  const { mutateAsync: signInAccount, status } = useSignInAccount();
+  const isLoading = status === 'pending';
 
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
@@ -59,7 +61,7 @@ const Signin = () => {
   return (
     <Form {...form}>
       <div className='sm:w-420 flex-center flex-col'>
-        <img src='/assets/images/logo.svg' alt='logo' />
+        <img src='/assets/icons/logo.svg' alt='logo' />
 
         <h2 className='h3-bold md:h2-bold pt-5 sm:pt-12'>
           Log in to your account

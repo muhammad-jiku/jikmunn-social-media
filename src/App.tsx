@@ -2,8 +2,9 @@ import { Route, Routes } from 'react-router-dom';
 import AuthLayout from './_auth/AuthLayout';
 import Signin from './_auth/forms/Signin';
 import Signup from './_auth/forms/Signup';
-import './App.css';
 import { Toaster } from './components/ui/sonner';
+// import './globals.css';
+import './App.css';
 
 function App() {
   return (

@@ -10,6 +10,10 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useUserContext } from '@/context/AuthContext';
+import {
+  useCreateUserAccount,
+  useSignInAccount,
+} from '@/lib/react-query/queries';
 import { SignupValidation } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -32,10 +36,13 @@ const Signup = () => {
   });
 
   // Queries
-  const { mutateAsync: createUserAccount, isLoading: isCreatingAccount } =
+  const { mutateAsync: createUserAccount, status: isCreatingAccount } =
     useCreateUserAccount();
-  const { mutateAsync: signInAccount, isLoading: isSigningInUser } =
+  const isCreatingAccountLoading = isCreatingAccount === 'pending';
+
+  const { mutateAsync: signInAccount, status: isSigningInUser } =
     useSignInAccount();
+  const isSigningInUserLoading = isSigningInUser === 'pending';
 
   // Handler
   const handleSignup = async (user: z.infer<typeof SignupValidation>) => {
@@ -153,7 +160,9 @@ const Signup = () => {
           />
 
           <Button type='submit' className='shad-button_primary'>
-            {isCreatingAccount || isSigningInUser || isUserLoading ? (
+            {isCreatingAccountLoading ||
+            isSigningInUserLoading ||
+            isUserLoading ? (
               <div className='flex-center gap-2'>
                 <Loader /> Loading...
               </div>
