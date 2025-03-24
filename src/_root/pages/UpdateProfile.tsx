@@ -59,9 +59,6 @@ const UpdateProfile = () => {
     });
 
     if (!updatedUser) {
-      //   toast({
-      //     title: `Update user failed. Please try again.`,
-      //   });
       toast(`Update user failed. Please try again.`);
     }
 

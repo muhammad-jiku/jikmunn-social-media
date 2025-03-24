@@ -38,8 +38,7 @@ const Signin = () => {
     const session = await signInAccount(user);
 
     if (!session) {
-      //   toast({ title: 'Login failed. Please try again.' });
-      toast('Login failed. Please try again.');
+      toast('Sign in failed. Please try again.');
 
       return;
     }
@@ -51,8 +50,7 @@ const Signin = () => {
 
       navigate('/');
     } else {
-      //   toast({ title: 'Login failed. Please try again.' });
-      toast('Login failed. Please try again.');
+      toast('Sign in failed. Please try again.');
 
       return;
     }

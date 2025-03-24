@@ -7,7 +7,6 @@ const AllUsers = () => {
   const { data: creators, isLoading, isError: isErrorCreators } = useGetUsers();
 
   if (isErrorCreators) {
-    // toast({ title: 'Something went wrong.' });
     toast('Something went wrong.');
 
     return;

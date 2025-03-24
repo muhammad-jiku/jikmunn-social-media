@@ -11,7 +11,6 @@ import { account, appwriteConfig, avatars, databases, storage } from './config';
 // ============================== SIGN UP
 export async function createUserAccount(user: INewUser) {
   try {
-    console.log('first bug', user);
     const newAccount = await account.create(
       ID.unique(),
       user.email,
@@ -19,10 +18,9 @@ export async function createUserAccount(user: INewUser) {
       user.name
     );
 
-    console.log('first bug new account', newAccount);
+    
     if (!newAccount) throw Error;
 
-    // const avatarUrl = avatars.getInitials(user.name);
     const avatarUrl = new URL(avatars.getInitials(user.name));
 
     const newUser = await saveUserToDB({
@@ -31,8 +29,8 @@ export async function createUserAccount(user: INewUser) {
       email: newAccount.email,
       username: user.username,
       imageUrl: avatarUrl,
-    });
-    console.log('first new user bug', newUser);
+    } );
+    
     return newUser;
   } catch (error) {
     console.log(error);
@@ -49,14 +47,13 @@ export async function saveUserToDB(user: {
   username?: string;
 }) {
   try {
-    console.log('first save user bug', user);
     const newUser = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.usersCollectionId,
       ID.unique(),
       user
     );
-    console.log('first saved user bug new', newUser);
+    
     return newUser;
   } catch (error) {
     console.log(error);
@@ -66,13 +63,12 @@ export async function saveUserToDB(user: {
 // ============================== SIGN IN
 export async function signInAccount(user: { email: string; password: string }) {
   try {
-    console.log('sign in account bug first', user);
     const session = await account.createEmailPasswordSession(
       user.email,
       user.password
     );
 
-    console.log('first sign in account session', session);
+    
     return session;
   } catch (error) {
     console.log(error);
@@ -83,7 +79,7 @@ export async function signInAccount(user: { email: string; password: string }) {
 export async function getAccount() {
   try {
     const currentAccount = await account.get();
-    console.log('get current account', currentAccount);
+    
     return currentAccount;
   } catch (error) {
     console.log(error);
@@ -94,7 +90,7 @@ export async function getAccount() {
 export async function getCurrentUser() {
   try {
     const currentAccount = await getAccount();
-    console.log('first current account', currentAccount);
+    
     if (!currentAccount) throw Error;
 
     const currentUser = await databases.listDocuments(
@@ -102,7 +98,7 @@ export async function getCurrentUser() {
       appwriteConfig.usersCollectionId,
       [Query.equal('accountId', currentAccount.$id)]
     );
-    console.log('first current user', currentUser);
+    
     if (!currentUser) throw Error;
 
     return currentUser.documents[0];
@@ -130,23 +126,22 @@ export async function signOutAccount() {
 // ============================== CREATE POST
 export async function createPost(post: INewPost) {
   try {
-    console.log('post data received', post);
     // Upload file to appwrite storage
-    const uploadedFile = await uploadFile(post.file[0]);
-    console.log('recedived uploaded file', uploadedFile);
+    const uploadedFile = await uploadFile( post.file[ 0 ] );
+    
     if (!uploadedFile) throw Error;
 
     // Get file url
-    const fileUrl = getFilePreview(uploadedFile.$id);
-    console.log('uploaded file url', fileUrl);
+    const fileUrl = getFilePreview( uploadedFile.$id );
+    
     if (!fileUrl) {
       await deleteFile(uploadedFile.$id);
       throw Error;
     }
 
     // Convert tags into array
-    const tags = post.tags?.replace(/ /g, '').split(',') || [];
-    console.log('posts tags', tags);
+    const tags = post.tags?.replace( / /g, '' ).split( ',' ) || [];
+    
     // Create post
     const newPost = await databases.createDocument(
       appwriteConfig.databaseId,
@@ -161,7 +156,7 @@ export async function createPost(post: INewPost) {
         tags: tags,
       }
     );
-    console.log('new post', newPost);
+    
     if (!newPost) {
       await deleteFile(uploadedFile.$id);
       throw Error;
@@ -176,14 +171,12 @@ export async function createPost(post: INewPost) {
 // ============================== UPLOAD FILE
 export async function uploadFile(file: File) {
   try {
-    console.log('received file', file);
-
     const uploadedFile = await storage.createFile(
       appwriteConfig.storageId,
       ID.unique(),
       file
     );
-    console.log('uploaded file', uploadedFile);
+    
     return uploadedFile;
   } catch (error) {
     console.log(error);
@@ -193,17 +186,15 @@ export async function uploadFile(file: File) {
 // ============================== GET FILE URL
 export function getFilePreview(fileId: string) {
   try {
-    console.log('file id', fileId);
     const fileUrl = storage.getFilePreview(
       appwriteConfig.storageId,
       fileId,
       2000,
       2000,
-      // 'top',
       'top' as unknown as ImageGravity, // use with caution
       100
     );
-    console.log('file preview url', fileUrl);
+    
     if (!fileUrl) throw Error;
 
     return fileUrl;

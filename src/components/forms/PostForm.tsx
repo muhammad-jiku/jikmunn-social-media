@@ -29,7 +29,7 @@ type PostFormProps = {
 const PostForm = ({ post, action }: PostFormProps) => {
   const navigate = useNavigate();
   const { user } = useUserContext();
-  console.log('current user', user);
+
   const form = useForm<z.infer<typeof PostValidation>>({
     resolver: zodResolver(PostValidation),
     defaultValues: {
@@ -59,9 +59,6 @@ const PostForm = ({ post, action }: PostFormProps) => {
       });
 
       if (!updatedPost) {
-        // toast({
-        //   title: `${action} post failed. Please try again.`,
-        // });
         toast(`${action} post failed. Please try again.`);
       }
       return navigate(`/posts/${post.$id}`);
@@ -74,9 +71,6 @@ const PostForm = ({ post, action }: PostFormProps) => {
     });
 
     if (!newPost) {
-      //   toast({
-      //     title: `${action} post failed. Please try again.`,
-      //   });
       toast(`${action} post failed. Please try again.`);
     }
     navigate('/');
