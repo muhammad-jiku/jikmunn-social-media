@@ -41,7 +41,7 @@ const AuthContext = createContext<IContextType>(INITIAL_STATE);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
-  const { pathname } = useLocation(); // Moved to the top level of the component
+  const { pathname } = useLocation();
 
   const [user, setUser] = useState<IUser>(INITIAL_USER);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -71,23 +71,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  }, []); // Empty dependency array means it will only be created once
+  }, []);
 
   useEffect(() => {
-    const cookieFallback = localStorage.getItem('cookieFallback');
-
-    if (
-      (cookieFallback === '[]' ||
-        cookieFallback === null ||
-        cookieFallback === undefined) &&
-      pathname !== '/sign-in' &&
-      pathname !== '/sign-up'
-    ) {
-      navigate('/sign-in');
+    // Only perform the auth check for non-auth routes
+    if (pathname !== '/sign-in' && pathname !== '/sign-up') {
+      checkAuthUser().then((authenticated) => {
+        if (!authenticated) {
+          navigate('/sign-in');
+        }
+      });
     }
-
-    checkAuthUser();
-  }, [navigate, pathname, checkAuthUser]); // Include pathname and checkAuthUser as dependencies
+  }, [pathname, navigate, checkAuthUser]);
 
   const value = {
     user,

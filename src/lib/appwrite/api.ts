@@ -130,13 +130,15 @@ export async function signOutAccount() {
 // ============================== CREATE POST
 export async function createPost(post: INewPost) {
   try {
+    console.log('post data received', post);
     // Upload file to appwrite storage
     const uploadedFile = await uploadFile(post.file[0]);
-
+    console.log('recedived uploaded file', uploadedFile);
     if (!uploadedFile) throw Error;
 
     // Get file url
     const fileUrl = getFilePreview(uploadedFile.$id);
+    console.log('uploaded file url', fileUrl);
     if (!fileUrl) {
       await deleteFile(uploadedFile.$id);
       throw Error;
@@ -144,7 +146,7 @@ export async function createPost(post: INewPost) {
 
     // Convert tags into array
     const tags = post.tags?.replace(/ /g, '').split(',') || [];
-
+    console.log('posts tags', tags);
     // Create post
     const newPost = await databases.createDocument(
       appwriteConfig.databaseId,
@@ -159,7 +161,7 @@ export async function createPost(post: INewPost) {
         tags: tags,
       }
     );
-
+    console.log('new post', newPost);
     if (!newPost) {
       await deleteFile(uploadedFile.$id);
       throw Error;
@@ -174,12 +176,14 @@ export async function createPost(post: INewPost) {
 // ============================== UPLOAD FILE
 export async function uploadFile(file: File) {
   try {
+    console.log('received file', file);
+
     const uploadedFile = await storage.createFile(
       appwriteConfig.storageId,
       ID.unique(),
       file
     );
-
+    console.log('uploaded file', uploadedFile);
     return uploadedFile;
   } catch (error) {
     console.log(error);
@@ -189,6 +193,7 @@ export async function uploadFile(file: File) {
 // ============================== GET FILE URL
 export function getFilePreview(fileId: string) {
   try {
+    console.log('file id', fileId);
     const fileUrl = storage.getFilePreview(
       appwriteConfig.storageId,
       fileId,
@@ -198,7 +203,7 @@ export function getFilePreview(fileId: string) {
       'top' as unknown as ImageGravity, // use with caution
       100
     );
-
+    console.log('file preview url', fileUrl);
     if (!fileUrl) throw Error;
 
     return fileUrl;

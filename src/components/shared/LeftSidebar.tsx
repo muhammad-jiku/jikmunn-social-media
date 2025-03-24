@@ -20,6 +20,8 @@ const LeftSidebar = () => {
     signOut();
     setIsAuthenticated(false);
     setUser(INITIAL_USER);
+    // Clear cookieFallback from localStorage if used
+    localStorage.removeItem('cookieFallback');
     navigate('/sign-in');
   };
 
@@ -28,7 +30,7 @@ const LeftSidebar = () => {
       <div className='flex flex-col gap-11'>
         <Link to='/' className='flex gap-3 items-center'>
           <img
-            src='/assets/icons/logo.svg'
+            src='/assets/images/logo.png'
             alt='logo'
             width={170}
             height={36}
@@ -56,7 +58,6 @@ const LeftSidebar = () => {
         <ul className='flex flex-col gap-6'>
           {sidebarLinks.map((link: INavLink) => {
             const isActive = pathname === link.route;
-
             return (
               <li
                 key={link.label}
@@ -89,7 +90,7 @@ const LeftSidebar = () => {
         onClick={(e) => handleSignOut(e)}
       >
         <img src='/assets/icons/logout.svg' alt='logout' />
-        <p className='small-medium lg:base-medium'>Logout</p>
+        <p className='small-medium lg:base-medium'>Sign out</p>
       </Button>
     </nav>
   );

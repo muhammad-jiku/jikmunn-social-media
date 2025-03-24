@@ -65,7 +65,7 @@ const Signup = () => {
         // toast({ title: 'Something went wrong. Please login your new account' });
         toast('Something went wrong. Please login your new account.');
 
-        // navigate('/sign-in');
+        navigate('/sign-in');
 
         return;
       }
@@ -90,13 +90,13 @@ const Signup = () => {
   return (
     <Form {...form}>
       <div className='xs:w-420 md:w-full flex-center flex-col'>
-        <img src='/assets/icons/logo.svg' alt='logo' />
+        <img src='/assets/images/logo.png' alt='logo' />
 
         <h2 className='h3-bold md:h2-bold pt-5 sm:pt-12'>
           Create a new account
         </h2>
         <p className='text-light-3 small-medium md:base-regular mt-2'>
-          To use snapgram, Please enter your details
+          To use <i>jikmun</i>GRAM, Please enter your details
         </p>
 
         <form
