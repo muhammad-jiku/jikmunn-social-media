@@ -74,22 +74,6 @@ module.exports = {
     // Add this plugin for custom scrollbar
     plugin(function ({ addUtilities }) {
       const newUtilities = {
-        // '.custom-scrollbar::-webkit-scrollbar': {
-        //   width: '3px',
-        //   height: '3px',
-        //   borderRadius: '2px',
-        // },
-        // '.custom-scrollbar::-webkit-scrollbar-track': {
-        //   background: '#09090a',
-        // },
-        // '.custom-scrollbar::-webkit-scrollbar-thumb': {
-        //   background: '#5c5c7b',
-        //   borderRadius: '50px',
-        // },
-        // '.custom-scrollbar::-webkit-scrollbar-thumb:hover': {
-        //   background: '#7878a3',
-        // },
-
         // Typography
         '.h1-bold': {
           fontSize: '36px',
